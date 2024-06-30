@@ -5,29 +5,27 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.soukon</groupId>
-        <artifactId>webapp_template</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <artifactId>soukon_common</artifactId>
+        <version>1.0</version>
     </parent>
 
-    <artifactId>soukon_common</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>soukon_common_redis</module>
-        <module>soukon_common_database</module>
-        <module>soukon_common_auth</module>
-    </modules>
+    <artifactId>soukon_common_redis</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.17.1</version>
+        </dependency>
+    </dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub OWNER Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/yuikij/REPOSITORY</url>
-        </repository>
-    </distributionManagement>
 </project>
