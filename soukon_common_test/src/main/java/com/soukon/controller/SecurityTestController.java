@@ -1,19 +1,15 @@
 package com.soukon.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import com.soukon.core.http.ApiResponse;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SecurityTestController {
 
-    @GetMapping("/test")
-    public String test(){
-        return "test";
+    @PostMapping("/test2")
+    public ApiResponse<Object> test2(){
+        return ApiResponse.success();
     }
 
-
-//    @GetMapping("/login")
-//    public String login(){
-//        return "login";
-//    }
 }

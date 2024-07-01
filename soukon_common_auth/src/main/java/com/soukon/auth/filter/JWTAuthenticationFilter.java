@@ -1,6 +1,7 @@
 package com.soukon.auth.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.soukon.auth.domain.UserDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +26,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         try {
-            User creds = new ObjectMapper().readValue(req.getInputStream(), User.class);
+            UserDTO creds = new ObjectMapper().readValue(req.getInputStream(), UserDTO.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

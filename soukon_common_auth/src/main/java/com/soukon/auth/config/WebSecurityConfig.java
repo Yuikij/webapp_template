@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,10 +42,11 @@ public class WebSecurityConfig {
 //                .sessionManagement().disable(); // Disable session management for stateless authentication
 //        return http.build();
         return http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(CsrfConfigurer::disable)
+                .cors(CorsConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/login", "/register").permitAll()
+                                .requestMatchers("/login", "/register", "/test1", "/test2").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -51,24 +54,6 @@ public class WebSecurityConfig {
                 .build();
     }
 
-
-
-//    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder bCryptPasswordEncoder) throws Exception {
-//        return http.getSharedObject(AuthenticationManagerBuilder.class)
-//                .userDetailsService(userDetailsService())
-//                .passwordEncoder(bCryptPasswordEncoder)
-//                .and()
-//                .build();
-//    }
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-//        manager.createUser(User.withUsername("user")
-//                .password(passwordEncoder().encode("password"))
-//                .roles("USER").build());
-//        return manager;
-//    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

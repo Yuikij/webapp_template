@@ -18,3 +18,5 @@ spring:
       max-active: 20 
       max-wait: 60000  
 ```
+## 遇到的问题
+* https://github.com/baomidou/mybatis-plus/issues/5243

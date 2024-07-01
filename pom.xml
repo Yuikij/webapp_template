@@ -19,6 +19,8 @@
         <module>soukon_common_database</module>
         <module>soukon_common_auth</module>
         <module>soukon_common_test</module>
+        <module>soukon_common_core</module>
+        <module>soukon_test2</module>
     </modules>
 
     <properties>

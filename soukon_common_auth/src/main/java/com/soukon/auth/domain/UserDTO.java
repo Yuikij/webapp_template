@@ -9,8 +9,8 @@ import java.util.Collection;
 
 @Data
 @TableName("user")
-public class UserDO implements UserDetails {
-    private Long id;
+public class UserDTO implements UserDetails {
+
     private String username;
     private String password;
     private boolean enabled;
