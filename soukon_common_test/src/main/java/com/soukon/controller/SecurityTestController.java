@@ -9,6 +9,12 @@ public class SecurityTestController {
 
     @PostMapping("/test2")
     public ApiResponse<Object> test2(){
+        throw new RuntimeException();
+//        return ApiResponse.success();
+    }
+
+    @PostMapping("/test3")
+    public ApiResponse<Object> test3(){
         return ApiResponse.success();
     }
 
