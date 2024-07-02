@@ -42,33 +42,4 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new RuntimeException(e);
         }
     }
-
-    @Override
-    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException {
-
-        System.out.println(req);
-        //        String token = JwtUtils.generateToken(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
-//        res.addHeader("Authorization", "Bearer " + token);
-    }
-
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        super.unsuccessfulAuthentication(request, response, failed);
-
-
-    }
-
-    private void errResp(HttpServletResponse response, String msg) {
-        try {
-            response.setContentType("application/json;charset=utf-8");
-            PrintWriter out = response.getWriter();
-            out.write(new ObjectMapper().writeValueAsString(ApiResponse.error(msg)));
-            out.flush();
-            out.close();
-        } catch (Exception e) {
-            log.error("登录失败处理错误", e);
-        }
-
-
-    }
 }

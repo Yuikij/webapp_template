@@ -1,6 +1,7 @@
 package com.soukon.auth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.soukon.auth.utils.HttpUtils;
 import com.soukon.core.http.ApiResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,22 +23,7 @@ import java.io.PrintWriter;
 public class LoginFailureHandler implements AuthenticationFailureHandler {
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-        errResp(response, e.getMessage());
+    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse response, AuthenticationException e) {
+        HttpUtils.parseFromResponse(response, ApiResponse.error(e.getMessage()));
     }
-
-    private void errResp(HttpServletResponse response, String msg) {
-        try {
-            response.setContentType("application/json;charset=utf-8");
-            PrintWriter out = response.getWriter();
-            out.write(new ObjectMapper().writeValueAsString(ApiResponse.error(msg)));
-            out.flush();
-            out.close();
-        } catch (Exception e) {
-            log.error("登录失败处理错误", e);
-        }
-
-
-    }
-
 }

@@ -2,8 +2,10 @@ package com.soukon.auth.config;
 
 import com.soukon.auth.filter.JWTAuthenticationFilter;
 import com.soukon.auth.filter.JWTAuthorizationFilter;
-import com.soukon.auth.handler.CustomAccessErrorHandler;
+import com.soukon.auth.handler.CustomAccessDeniedHandler;
+import com.soukon.auth.handler.CutomAuthenticationEntryPoint;
 import com.soukon.auth.handler.LoginFailureHandler;
+import com.soukon.auth.handler.LoginSuccessHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,24 +29,31 @@ public class WebSecurityConfig {
     @Autowired
     private LoginFailureHandler loginFailureHandler;
     @Autowired
-    private CustomAccessErrorHandler customAccessErrorHandler;
+    private LoginSuccessHandler loginSuccessHandler;
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+    @Autowired
+    private CutomAuthenticationEntryPoint cutomAuthenticationEntryPoint;
+
+//    @Autowired
+//    private JWTAuthorizationFilter jwtAuthorizationFilter;
+
+    @Autowired
+    private AuthenticationConfiguration authenticationConfiguration;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public JWTAuthorizationFilter jwtAuthorizationFilter() throws Exception {
+        return new JWTAuthorizationFilter(authenticationConfiguration.getAuthenticationManager());
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         AuthenticationManager authenticationManager = authenticationConfiguration.getAuthenticationManager();
         JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager);
 //        todo 后期可配置
         jwtAuthenticationFilter.setFilterProcessesUrl("/login");
         jwtAuthenticationFilter.setAuthenticationFailureHandler(loginFailureHandler);
-//        http.csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/login", "/register").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .addFilter(jwtAuthenticationFilter)
-//                .addFilter(new JWTAuthorizationFilter(authenticationManager))
-//                .sessionManagement().disable(); // Disable session management for stateless authentication
-//        return http.build();
+        jwtAuthenticationFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
         return http
                 .csrf(CsrfConfigurer::disable)
                 .cors(CorsConfigurer::disable)
@@ -53,15 +62,12 @@ public class WebSecurityConfig {
                                 .requestMatchers("/login", "/register").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .addFilter(new JWTAuthorizationFilter(authenticationManager))
+                .addFilter(jwtAuthorizationFilter())
                 .addFilterAt(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(AbstractHttpConfigurer::disable)
                 .exceptionHandling(e -> e
-//                        .authenticationEntryPoint((request, response, authException) -> {
-//                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//                            response.getWriter().write("Unauthorized: " + authException.getMessage());
-//                        })
-                        .accessDeniedHandler(customAccessErrorHandler))
+                        .authenticationEntryPoint(cutomAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler))
                 .build();
     }
 
