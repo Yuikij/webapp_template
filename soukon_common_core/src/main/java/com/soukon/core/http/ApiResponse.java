@@ -3,6 +3,8 @@ package com.soukon.core.http;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 @Data
 public class ApiResponse<T> {
 
@@ -13,6 +15,7 @@ public class ApiResponse<T> {
     private Boolean success;
 
     private T data;
+    private List<T> list;
 
     public ApiResponse() {
     }
