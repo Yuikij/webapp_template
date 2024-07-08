@@ -13,6 +13,7 @@ public class HttpUtils {
     public static  <T> void parseFromResponse(HttpServletResponse response, ApiResponse<T> apiResponse) {
         try {
             response.setContentType("application/json;charset=utf-8");
+            response.setStatus(apiResponse.getCode());
             PrintWriter out = response.getWriter();
             out.write(new ObjectMapper().writeValueAsString(apiResponse));
             out.flush();

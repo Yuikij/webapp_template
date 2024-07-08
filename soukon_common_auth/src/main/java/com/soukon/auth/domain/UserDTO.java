@@ -13,6 +13,7 @@ public class UserDTO implements UserDetails {
     private String username;
     private String password;
     private boolean enabled;
+    private boolean remember;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

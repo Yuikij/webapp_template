@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- *  认证失败处理 - 前后端分离情况下返回json数据格式
+ * 认证失败处理 - 前后端分离情况下返回json数据格式
  */
 @Slf4j
 @Component
@@ -24,6 +24,6 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse response, AuthenticationException e) {
-        HttpUtils.parseFromResponse(response, ApiResponse.error(e.getMessage()));
+        HttpUtils.parseFromResponse(response, ApiResponse.error(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage()));
     }
 }
