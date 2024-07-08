@@ -20,13 +20,19 @@ public class ApiResponse<T> {
     public ApiResponse() {
     }
 
-    public ApiResponse(int code, String msg, T data,Boolean success) {
-        this.code=code;
-        this.msg=msg;
-        this.data=data;
-        this.success=success;
+    public ApiResponse(int code, String msg, T data, Boolean success) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+        this.success = success;
     }
-    public static <T>ApiResponse<T> success() {
+
+    public ApiResponse<T> list(List<T> list) {
+        this.list = list;
+        return this;
+    }
+
+    public static <T> ApiResponse<T> success() {
         return ApiResponse.success("操作成功");
     }
 
@@ -35,7 +41,7 @@ public class ApiResponse<T> {
      *
      * @return 成功消息
      */
-    public static <T>ApiResponse<T> success(T data) {
+    public static <T> ApiResponse<T> success(T data) {
         return ApiResponse.success("操作成功", data);
     }
 
@@ -45,7 +51,7 @@ public class ApiResponse<T> {
      * @param msg 返回内容
      * @return 成功消息
      */
-    public static <T>ApiResponse<T> success(String msg) {
+    public static <T> ApiResponse<T> success(String msg) {
         return ApiResponse.success(msg, null);
     }
 
@@ -56,8 +62,8 @@ public class ApiResponse<T> {
      * @param data 数据对象
      * @return 成功消息
      */
-    public static <T>ApiResponse<T> success(String msg, T data) {
-        return new ApiResponse<T>(HttpStatus.OK.value(), msg, data,true);
+    public static <T> ApiResponse<T> success(String msg, T data) {
+        return new ApiResponse<T>(HttpStatus.OK.value(), msg, data, true);
     }
 
     /**
@@ -67,7 +73,7 @@ public class ApiResponse<T> {
      * @param msg  返回内容
      * @return 警告消息
      */
-    public static <T>ApiResponse<T> success(int code, String msg) {
+    public static <T> ApiResponse<T> success(int code, String msg) {
         return new ApiResponse<T>(code, msg, null, true);
     }
 
@@ -77,7 +83,7 @@ public class ApiResponse<T> {
      *
      * @return
      */
-    public static <T>ApiResponse<T> error() {
+    public static <T> ApiResponse<T> error() {
         return ApiResponse.error("操作失败");
     }
 
@@ -87,7 +93,7 @@ public class ApiResponse<T> {
      * @param msg 返回内容
      * @return 警告消息
      */
-    public static <T>ApiResponse<T> error(String msg) {
+    public static <T> ApiResponse<T> error(String msg) {
         return ApiResponse.error(msg, null);
     }
 
@@ -98,7 +104,7 @@ public class ApiResponse<T> {
      * @param data 数据对象
      * @return 警告消息
      */
-    public static <T>ApiResponse<T> error(String msg, T data) {
+    public static <T> ApiResponse<T> error(String msg, T data) {
         return new ApiResponse<T>(HttpStatus.INTERNAL_SERVER_ERROR.value(), msg, data, false);
     }
 
@@ -109,7 +115,7 @@ public class ApiResponse<T> {
      * @param msg  返回内容
      * @return 警告消息
      */
-    public static <T>ApiResponse<T> error(int code, String msg) {
+    public static <T> ApiResponse<T> error(int code, String msg) {
         return new ApiResponse<T>(code, msg, null, false);
     }
 }
