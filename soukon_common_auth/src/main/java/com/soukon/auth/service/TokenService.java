@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.soukon.auth.domain.LoginDTO;
 import com.soukon.auth.domain.LoginVO;
 import com.soukon.auth.domain.UserBO;
+import com.soukon.auth.utils.HttpUtils;
 import com.soukon.auth.utils.JwtUtils;
 import com.soukon.redis.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,12 @@ public class TokenService {
             return null;
         }
         return redisService.getCacheObject(LOGIN_TOKEN_KEY + jsonObject.getString("uid"));
+    }
+
+
+    public UserBO getUser() {
+        String token = HttpUtils.getToken();
+        return getUser(token);
     }
 
 }

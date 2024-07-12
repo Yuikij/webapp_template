@@ -7,5 +7,11 @@ public class AuthConstants {
      * 权限缓存前缀
      */
     public final static String LOGIN_TOKEN_KEY = "login_tokens:";
+    public final static String AUTHORIZATION = "Authorization";
     public final static long EXPIRATION_MINUTES = 720;
+    /**
+     * 令牌前缀
+     */
+    public static final String TOKEN_PREFIX = "Bearer ";
+
 }
