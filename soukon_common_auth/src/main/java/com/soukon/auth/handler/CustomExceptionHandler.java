@@ -1,6 +1,7 @@
 package com.soukon.auth.handler;
 
 import com.soukon.core.http.ApiResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @RestControllerAdvice
+@Slf4j
 public class CustomExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<String> handleNotFoundException(NoHandlerFoundException ex) {
@@ -29,6 +31,7 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ApiResponse<String> handleException(Exception ex) {
+        log.error("调用接口失败",ex);
         return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR.value(),ex.getMessage());
     }
 
