@@ -21,6 +21,7 @@
         <module>soukon_common_test</module>
         <module>soukon_common_core</module>
         <module>soukon_test2</module>
+        <module>soukon_common_rabbitmq</module>
     </modules>
 
     <properties>
